@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Prashun Pandey - Embedded Systems Engineer, Maker, and CNC Writing Machine Project." />
+  <meta name="description" content="Prashun Pandey - Creative Builder, Robotics & Space Enthusiast." />
   <title>Prashun Pandey | Links</title>
 
   <style>
     :root {
-      --bg: #f6f1e8;
-      --card: #fffaf2;
-      --text: #1f1f1f;
-      --muted: #69645d;
-      --primary: #1f1f1f;
-      --secondary: #ebe2d3;
-      --accent: #9b6a38;
-      --border: rgba(31, 31, 31, 0.1);
-      --shadow: 0 18px 60px rgba(31, 31, 31, 0.12);
+      --bg-color: #080c16;
+      --card-bg: rgba(13, 20, 36, 0.75);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-cyan: #00f0ff;
+      --accent-blue: #3b82f6;
+      --border-color: rgba(0, 240, 255, 0.15);
+      --btn-bg: rgba(30, 41, 59, 0.8);
+      --btn-hover: rgba(15, 23, 42, 0.9);
+      --terminal-bg: #030712;
     }
 
     * {
@@ -26,15 +27,19 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(155, 106, 56, 0.18), transparent 32%),
-        linear-gradient(135deg, #f8f3ea 0%, #efe3d2 100%);
-      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-color);
+      /* Engineering/Blueprint Grid Effect */
+      background-image: 
+        linear-gradient(var(--border-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+      background-size: 30px 30px;
+      background-position: center;
+      color: var(--text-main);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 28px 16px;
+      padding: 30px 16px;
     }
 
     .page {
@@ -43,62 +48,140 @@
     }
 
     .card {
-      background: rgba(255, 250, 242, 0.9);
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      padding: 34px 24px 26px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 24px;
+      padding: 40px 24px 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .avatar-container {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 20px;
+    }
+
+    /* Orbit Glow Animation */
+    .avatar-container::before {
+      content: '';
+      position: absolute;
+      top: -4px; left: -4px; right: -4px; bottom: -4px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--accent-cyan), var(--accent-blue), transparent, transparent);
+      z-index: -1;
+      animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
     }
 
     .avatar {
-      width: 84px;
-      height: 84px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      margin: 0 auto 18px;
-      background: linear-gradient(135deg, #1f1f1f, #8b633c);
-      color: #fff;
+      background: #0f172a;
+      color: var(--accent-cyan);
       display: grid;
       place-items: center;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 800;
-      letter-spacing: 0.5px;
-      border: 4px solid rgba(255, 255, 255, 0.72);
-      box-shadow: 0 10px 26px rgba(31, 31, 31, 0.18);
+      letter-spacing: 1px;
+      border: 3px solid #080c16;
     }
 
     h1 {
       margin: 0;
       text-align: center;
-      font-size: 30px;
-      line-height: 1.1;
-      letter-spacing: -0.8px;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #fff, var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .tagline {
-      margin: 10px auto 0;
-      max-width: 360px;
-      color: var(--muted);
+      margin: 12px auto 0;
+      max-width: 380px;
+      color: var(--text-muted);
       text-align: center;
       font-size: 15px;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
-    .highlight {
-      margin: 22px 0 20px;
-      padding: 14px 15px;
-      border-radius: 18px;
-      background: rgba(235, 226, 211, 0.66);
-      border: 1px solid rgba(31, 31, 31, 0.08);
-      color: #3a342d;
+    .tagline strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Terminal Window Style */
+    .terminal {
+      margin: 28px 0;
+      border-radius: 12px;
+      background: var(--terminal-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .terminal-header {
+      background: #1e293b;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot.red { background: #ef4444; }
+    .dot.yellow { background: #eab308; }
+    .dot.green { background: #22c55e; }
+
+    .terminal-title {
+      margin-left: 8px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .terminal-body {
+      padding: 16px;
+      color: #cbd5e1;
       font-size: 14px;
-      line-height: 1.55;
+      font-family: 'Fira Code', 'Courier New', Courier, monospace;
+      line-height: 1.6;
+    }
+
+    .prompt {
+      color: var(--accent-cyan);
+      font-weight: bold;
+      margin-right: 6px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background: var(--accent-cyan);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
     }
 
     .links {
       display: grid;
-      gap: 12px;
-      margin-top: 18px;
+      gap: 14px;
     }
 
     .link-button {
@@ -107,70 +190,71 @@
       justify-content: space-between;
       gap: 14px;
       text-decoration: none;
-      padding: 15px 16px;
-      border-radius: 17px;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
-      box-shadow: 0 8px 20px rgba(31, 31, 31, 0.13);
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--btn-bg);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      font-weight: 600;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--accent-cyan);
+      transform: scaleY(0);
+      transition: transform 0.2s ease;
     }
 
     .link-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(31, 31, 31, 0.18);
-      background: #303030;
+      transform: translateY(-3px);
+      background: var(--btn-hover);
+      border-color: rgba(0, 240, 255, 0.4);
+      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.1);
     }
 
-    .link-button.secondary {
-      background: var(--secondary);
-      color: var(--text);
-      box-shadow: none;
-      border: 1px solid rgba(31, 31, 31, 0.08);
-    }
-
-    .link-button.secondary:hover {
-      background: #e3d6c4;
+    .link-button:hover::before {
+      transform: scaleY(1);
     }
 
     .link-title {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .icon {
-      width: 26px;
-      height: 26px;
-      border-radius: 9px;
-      display: grid;
-      place-items: center;
-      background: rgba(255, 255, 255, 0.16);
-      font-size: 14px;
-    }
-
-    .secondary .icon {
-      background: rgba(31, 31, 31, 0.08);
+      font-size: 18px;
     }
 
     .arrow {
-      opacity: 0.75;
+      color: var(--text-muted);
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .link-button:hover .arrow {
+      transform: translateX(4px);
+      color: var(--accent-cyan);
     }
 
     .footer {
-      margin-top: 22px;
+      margin-top: 28px;
       text-align: center;
-      color: var(--muted);
+      color: #64748b;
       font-size: 13px;
+      font-family: monospace;
     }
 
     @media (max-width: 420px) {
       .card {
-        padding: 30px 18px 22px;
+        padding: 30px 20px 24px;
       }
-
       h1 {
-        font-size: 27px;
+        font-size: 28px;
       }
     }
   </style>
@@ -178,42 +262,50 @@
 <body>
   <main class="page">
     <section class="card" aria-label="Prashun Pandey personal links">
-      <div class="avatar" aria-hidden="true">PP</div>
-
-      <h1>Prashun Pandey</h1>
-      <p class="tagline">
-        Embedded Systems Engineer · Maker · Building practical hardware-software projects.
-      </p>
-
-      <div class="highlight">
-        I’m currently building a CNC writing machine that converts digital portraits into physical pen-drawn artwork.
+      
+      <div class="avatar-container" aria-hidden="true">
+        <div class="avatar">PP</div>
       </div>
 
+      <h1>Prashun Pandey</h1>
+      
+      <!-- Brand Tagline -->
+      <p class="tagline">
+        <strong>Creative Builder</strong> · Robotics & Space Tech Enthusiast · Bringing ideas to life through hardware & code. 🚀
+      </p>
+
+      <!-- Terminal Highlight Box -->
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <div class="terminal-title">status_update.sh</div>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt">prashun@maker:~$</span> Currently building a custom CNC writing machine that converts digital portraits into physical pen-drawn artwork. <span class="cursor"></span>
+        </div>
+      </div>
+
+      <!-- Links -->
       <nav class="links" aria-label="Important links">
         <a class="link-button" href="https://www.linkedin.com/in/prashun-pandey-a265a1348/" target="_blank" rel="noopener noreferrer">
-          <span class="link-title"><span class="icon">in</span>Connect on LinkedIn</span>
+          <span class="link-title"><span class="icon">💼</span>Connect on LinkedIn</span>
           <span class="arrow">→</span>
         </a>
 
         <a class="link-button" href="https://wa.me/919521611788?text=Hi%20Prashun%2C%20I%20saw%20your%20profile%20and%20wanted%20to%20connect." target="_blank" rel="noopener noreferrer">
-          <span class="link-title"><span class="icon">☎</span>Message on WhatsApp</span>
+          <span class="link-title"><span class="icon">💬</span>Message on WhatsApp</span>
           <span class="arrow">→</span>
         </a>
 
-        <a class="link-button secondary" href="https://github.com/roboPanda69/cnc-portrait" target="_blank" rel="noopener noreferrer">
-          <span class="link-title"><span class="icon">⚙</span>CNC Writing Machine Project</span>
+        <a class="link-button" href="https://github.com/roboPanda69/cnc-portrait" target="_blank" rel="noopener noreferrer">
+          <span class="link-title"><span class="icon">⚙️</span>CNC Writing Machine</span>
           <span class="arrow">→</span>
         </a>
-
-        <!-- Future links can be added by copying one block like this:
-        <a class="link-button secondary" href="YOUR_NEW_LINK" target="_blank" rel="noopener noreferrer">
-          <span class="link-title"><span class="icon">★</span>Your New Link Title</span>
-          <span class="arrow">→</span>
-        </a>
-        -->
       </nav>
 
-      <p class="footer">More projects and experiments coming soon.</p>
+      <p class="footer">/* More projects deploying soon... */</p>
     </section>
   </main>
 </body>
