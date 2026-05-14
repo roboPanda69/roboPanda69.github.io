@@ -3,474 +3,385 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Prashun Pandey - Creative Builder, Robotics & Space Enthusiast." />
+  <meta name="description" content="Prashun Pandey - Maker, Robotics & Space Tech Builder" />
   <title>Prashun Pandey | Core System</title>
 
   <!-- Futuristic Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #03050a;
-      --card-glass: rgba(10, 15, 28, 0.6);
+      --bg-void: #020305;
+      --card-base: #0a0d14;
+      --gold-trace: #eab308;
+      --cyan-hud: #00f0ff;
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent-cyan: #00f0ff;
-      --accent-blue: #2563eb;
-      --accent-purple: #8b5cf6;
-      --glow-spread: rgba(0, 240, 255, 0.3);
+      --text-dim: #8b9bb4;
+      --panel-border: rgba(0, 240, 255, 0.2);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       min-height: 100vh;
-      font-family: 'Space Grotesk', sans-serif;
-      background-color: var(--bg-dark);
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--bg-void);
+      /* Subtle schematic grid background */
+      background-image: 
+        radial-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
       color: var(--text-main);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px 16px;
       overflow-x: hidden;
-      perspective: 1000px; /* For 3D effect */
+      perspective: 1200px;
     }
 
-    /* Background Canvas */
-    #network-canvas {
+    /* Starfield/Constellation Canvas */
+    #space-canvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: -1;
-      pointer-events: none;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -1; pointer-events: none; opacity: 0.6;
     }
 
-    /* 3D Card Wrapper */
-    .card-tilt-wrapper {
+    .card-wrapper {
       width: 100%;
-      max-width: 460px;
+      max-width: 480px;
       transform-style: preserve-3d;
-      transition: transform 0.1s ease-out;
-      animation: floatIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      opacity: 0;
-      transform: translateY(40px) scale(0.95);
+      animation: systemDropIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
-    @keyframes floatIn {
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes systemDropIn {
+      0% { opacity: 0; transform: translateY(-30px) scale(0.95) rotateX(10deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotateX(0); }
     }
 
-    /* Main Glass Card */
-    .card {
-      background: var(--card-glass);
-      border: 1px solid rgba(0, 240, 255, 0.15);
-      border-radius: 28px;
-      padding: 40px 28px 36px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.6), 
-        inset 0 1px 20px rgba(255, 255, 255, 0.05),
-        inset 0 0 20px rgba(0, 240, 255, 0.05);
-      transform: translateZ(20px); /* Pushes card forward in 3D space */
-    }
-
-    /* High-Tech Avatar */
-    .avatar-container {
+    /* Hardware Data Pad Look */
+    .hardware-panel {
       position: relative;
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 24px;
-      transform: translateZ(30px); /* Extra 3D pop */
+      background: var(--card-base);
+      padding: 40px 30px 30px;
+      /* Chamfered corners like a microchip / satellite panel */
+      clip-path: polygon(
+        25px 0, 100% 0, 
+        100% calc(100% - 25px), calc(100% - 25px) 100%, 
+        0 100%, 0 25px
+      );
+      border: 1px solid transparent;
     }
 
-    .avatar-ring {
+    /* Golden Circuit traces via pseudo-element */
+    .hardware-panel::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        linear-gradient(135deg, var(--gold-trace) 20px, transparent 20px),
+        linear-gradient(-45deg, var(--cyan-hud) 20px, transparent 20px);
+      background-position: top left, bottom right;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      z-index: -1;
+      padding: 2px;
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      clip-path: inherit;
+    }
+
+    /* Top Left Status LED */
+    .status-led {
       position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      border: 2px dashed rgba(0, 240, 255, 0.4);
-      animation: spin 8s linear infinite;
-    }
-
-    .avatar-ring-inner {
-      position: absolute;
-      inset: -2px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      border-top-color: var(--accent-purple);
-      border-bottom-color: var(--accent-blue);
-      animation: spin-reverse 4s linear infinite;
-    }
-
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
-
-    .avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: radial-gradient(circle at top right, #1e293b, #020617);
-      color: var(--accent-cyan);
-      display: grid;
-      place-items: center;
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      box-shadow: 0 0 20px var(--glow-spread);
-      border: 1px solid rgba(0, 240, 255, 0.3);
-    }
-
-    /* Text Styles */
-    h1 {
-      text-align: center;
-      font-size: 30px;
-      font-weight: 700;
+      top: 20px; right: 30px;
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 10px; color: var(--gold-trace);
       letter-spacing: 1px;
-      text-transform: uppercase;
-      background: linear-gradient(to right, #fff, var(--accent-cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px rgba(0,240,255,0.3));
-      transform: translateZ(25px);
+    }
+
+    .led-dot {
+      width: 8px; height: 8px;
+      background-color: var(--gold-trace);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--gold-trace);
+      animation: blink-led 2s infinite;
+    }
+
+    @keyframes blink-led {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Core Avatar */
+    .avatar-core {
+      width: 80px; height: 80px;
+      margin: 0 auto 20px;
+      background: radial-gradient(circle at center, #111, #000);
+      border: 2px solid var(--cyan-hud);
+      transform: rotate(45deg); /* Diamond shape */
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .avatar-core:hover {
+      box-shadow: 0 0 30px var(--cyan-hud), inset 0 0 20px var(--cyan-hud);
+    }
+
+    .avatar-text {
+      transform: rotate(-45deg); /* Un-rotate text */
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px; font-weight: 900;
+      color: var(--gold-trace);
+      text-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+    }
+
+    h1 {
+      text-align: center; font-family: 'Orbitron', sans-serif;
+      font-size: 26px; font-weight: 800; letter-spacing: 2px;
+      color: #fff; text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
     .tagline {
-      margin: 14px auto 0;
-      color: var(--text-muted);
-      text-align: center;
-      font-size: 14px;
-      line-height: 1.6;
-      transform: translateZ(20px);
+      text-align: center; color: var(--text-dim);
+      font-size: 16px; font-weight: 500; letter-spacing: 0.5px;
+      line-height: 1.5; margin-bottom: 24px;
     }
 
-    .tagline strong {
-      color: #fff;
-      font-weight: 600;
-    }
+    .tagline span { color: var(--cyan-hud); font-weight: 700; }
 
-    /* Sci-Fi Terminal */
-    .terminal {
-      margin: 30px 0;
-      border-radius: 12px;
-      background: rgba(3, 7, 18, 0.8);
-      border: 1px solid rgba(0, 240, 255, 0.2);
-      border-left: 3px solid var(--accent-cyan);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(0, 240, 255, 0.05);
-      transform: translateZ(25px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Terminal Scanning Line Effect */
-    .terminal::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(0, 240, 255, 0.05) 51%);
-      background-size: 100% 4px;
-      pointer-events: none;
-    }
-
-    .terminal-header {
-      background: rgba(15, 23, 42, 0.9);
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .terminal-title {
-      margin-left: 8px;
-      color: #64748b;
-      font-size: 11px;
+    /* Boot Sequence Terminal */
+    .telemetry-box {
+      background: #05080f;
+      border: 1px solid var(--panel-border);
+      padding: 14px 16px; margin-bottom: 24px;
+      border-left: 4px solid var(--gold-trace);
       font-family: 'Fira Code', monospace;
-      letter-spacing: 1px;
+      font-size: 12px; color: var(--cyan-hud);
+      position: relative; overflow: hidden;
+      min-height: 80px;
     }
 
-    .terminal-body {
-      padding: 16px;
-      color: #cbd5e1;
-      font-size: 13px;
-      font-family: 'Fira Code', monospace;
-      line-height: 1.7;
+    /* Scanline effect */
+    .telemetry-box::after {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.4) 51%);
+      background-size: 100% 4px; pointer-events: none;
     }
 
-    .prompt {
-      color: var(--accent-cyan);
-      font-weight: bold;
+    .typing-text { line-height: 1.6; }
+    .cursor { display: inline-block; width: 8px; height: 14px; background: var(--cyan-hud); vertical-align: middle; animation: blink 1s step-end infinite; }
+
+    /* Data Link Buttons */
+    .links-grid { display: grid; gap: 14px; }
+
+    .data-link {
+      display: flex; align-items: center; justify-content: space-between;
+      text-decoration: none; padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main); font-size: 16px; font-weight: 600;
+      letter-spacing: 1px; position: relative; overflow: hidden;
+      transition: all 0.2s ease;
+      /* Hexagon cut left edge */
+      clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
     }
 
-    .cursor {
-      display: inline-block;
-      width: 8px;
-      height: 15px;
-      background: var(--accent-cyan);
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
-      box-shadow: 0 0 5px var(--accent-cyan);
+    .data-link::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--cyan-hud); transition: width 0.2s ease; z-index: -1;
     }
 
-    @keyframes blink { 50% { opacity: 0; } }
-
-    /* Buttons */
-    .links {
-      display: grid;
-      gap: 16px;
-      transform: translateZ(30px);
+    .data-link:hover {
+      border-color: var(--cyan-hud);
+      background: rgba(0, 240, 255, 0.05);
+      transform: translateX(5px);
+      color: #fff; text-shadow: 0 0 8px var(--cyan-hud);
     }
 
-    .link-button {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-decoration: none;
-      padding: 18px 20px;
-      border-radius: 14px;
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--text-main);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      /* Staggered animation entrance */
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
+    .data-link:hover::before { width: 100%; opacity: 0.1; }
 
-    .link-button:nth-child(1) { animation-delay: 0.3s; }
-    .link-button:nth-child(2) { animation-delay: 0.4s; }
-    .link-button:nth-child(3) { animation-delay: 0.5s; }
-
-    @keyframes slideUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Glow Hover Effect */
-    .link-button::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%; width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
-      transition: all 0.4s ease;
-    }
-
-    .link-button:hover {
-      background: rgba(15, 23, 42, 0.8);
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15), inset 0 0 10px rgba(0, 240, 255, 0.1);
-      transform: scale(1.02);
-    }
-
-    .link-button:hover::before {
-      left: 100%;
-    }
-
-    .link-title {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      z-index: 1;
-    }
-
-    .icon {
-      font-size: 20px;
-      filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
-    }
-
-    .arrow {
-      color: var(--text-muted);
-      transition: transform 0.3s ease, color 0.3s ease;
-      z-index: 1;
-      font-family: 'Fira Code', monospace;
-    }
-
-    .link-button:hover .arrow {
-      transform: translateX(6px);
-      color: var(--accent-cyan);
-    }
+    .link-left { display: flex; align-items: center; gap: 12px; }
+    .link-icon { font-size: 18px; font-family: 'Fira Code', monospace; color: var(--gold-trace); }
+    .link-arrow { font-family: 'Fira Code', monospace; color: var(--text-dim); transition: 0.2s; }
+    .data-link:hover .link-arrow { color: var(--gold-trace); transform: translateX(5px); }
 
     .footer {
-      margin-top: 30px;
-      text-align: center;
-      color: rgba(100, 116, 139, 0.8);
-      font-size: 12px;
-      font-family: 'Fira Code', monospace;
-      transform: translateZ(10px);
+      margin-top: 30px; text-align: center;
+      font-family: 'Fira Code', monospace; font-size: 11px;
+      color: #475569; letter-spacing: 1px;
     }
 
-    /* Mobile Optimization */
     @media (max-width: 480px) {
-      .card { padding: 30px 20px 24px; }
-      h1 { font-size: 26px; }
-      body { perspective: none; } /* Disable heavy 3D on mobile for performance */
-      .card-tilt-wrapper { transform: none !important; } 
+      .hardware-panel { padding: 35px 20px 25px; }
+      h1 { font-size: 22px; }
+      .avatar-core { width: 70px; height: 70px; }
+      .avatar-text { font-size: 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Animated Network -->
-  <canvas id="network-canvas"></canvas>
+  <!-- Background Space/Telemetry Canvas -->
+  <canvas id="space-canvas"></canvas>
 
-  <!-- 3D Wrapper -->
-  <div class="card-tilt-wrapper" id="tilt-card">
-    <main class="card" aria-label="Prashun Pandey personal links">
+  <div class="card-wrapper" id="tilt-node">
+    <main class="hardware-panel" aria-label="Prashun Pandey Core System">
       
-      <!-- Avatar -->
-      <div class="avatar-container" aria-hidden="true">
-        <div class="avatar-ring"></div>
-        <div class="avatar-ring-inner"></div>
-        <div class="avatar">PP</div>
+      <!-- System LED -->
+      <div class="status-led">
+        <div class="led-dot"></div> SYS.ONLINE
+      </div>
+
+      <!-- Core Processor Avatar -->
+      <div class="avatar-core" aria-hidden="true">
+        <span class="avatar-text">PP</span>
       </div>
 
       <!-- Identity -->
       <h1>Prashun Pandey</h1>
       <p class="tagline">
-        <strong>Creative Builder</strong> // Robotics & Space Tech Enthusiast // Bringing ideas to life via hardware & code. 🚀
+        Building the bridge between <span>Digital</span> & <span>Physical</span>.<br>
+        Maker / Robotics / Space Tech.
       </p>
 
-      <!-- Terminal Status -->
-      <div class="terminal">
-        <div class="terminal-header">
-          <div style="display:flex; gap:6px;">
-            <div style="width:10px; height:10px; border-radius:50%; background:#ef4444;"></div>
-            <div style="width:10px; height:10px; border-radius:50%; background:#eab308;"></div>
-            <div style="width:10px; height:10px; border-radius:50%; background:#22c55e;"></div>
-          </div>
-          <div class="terminal-title">current_mission.sh</div>
-        </div>
-        <div class="terminal-body">
-          <span class="prompt">prashun@maker:~$</span> Executing project build...<br>
-          <span style="color:#94a3b8;">> Target:</span> Custom CNC Writing Machine.<br>
-          <span style="color:#94a3b8;">> Objective:</span> Convert digital portraits into physical pen-drawn artwork. <span class="cursor"></span>
-        </div>
+      <!-- Boot Sequence Telemetry -->
+      <div class="telemetry-box">
+        <div class="typing-text" id="typewriter"></div>
+        <span class="cursor"></span>
       </div>
 
-      <!-- Link Routing -->
-      <nav class="links" aria-label="Important links">
-        <a class="link-button" href="https://www.linkedin.com/in/prashun-pandey-a265a1348/" target="_blank" rel="noopener noreferrer">
-          <span class="link-title"><span class="icon">💼</span>Initialize LinkedIn</span>
-          <span class="arrow">=></span>
+      <!-- Data Links -->
+      <nav class="links-grid" aria-label="Module Links">
+        <a class="data-link" href="https://www.linkedin.com/in/prashun-pandey-a265a1348/" target="_blank" rel="noopener noreferrer">
+          <div class="link-left"><span class="link-icon">[IN]</span> LinkedIn.Module</div>
+          <span class="link-arrow">-></span>
         </a>
 
-        <a class="link-button" href="https://wa.me/919521611788?text=Hi%20Prashun%2C%20I%20saw%20your%20profile%20and%20wanted%20to%20connect." target="_blank" rel="noopener noreferrer">
-          <span class="link-title"><span class="icon">💬</span>Ping on WhatsApp</span>
-          <span class="arrow">=></span>
+        <a class="data-link" href="https://wa.me/919521611788?text=Hi%20Prashun%2C%20I%20saw%20your%20profile%20and%20wanted%20to%20connect." target="_blank" rel="noopener noreferrer">
+          <div class="link-left"><span class="link-icon">[WA]</span> Comms.Channel</div>
+          <span class="link-arrow">-></span>
         </a>
 
-        <a class="link-button" href="https://github.com/roboPanda69/cnc-portrait" target="_blank" rel="noopener noreferrer">
-          <span class="link-title"><span class="icon">⚙️</span>View CNC Repo</span>
-          <span class="arrow">=></span>
+        <a class="data-link" href="https://github.com/roboPanda69/cnc-portrait" target="_blank" rel="noopener noreferrer">
+          <div class="link-left"><span class="link-icon">[GH]</span> CNC_Writer.Repo</div>
+          <span class="link-arrow">-></span>
         </a>
       </nav>
 
-      <p class="footer">SYSTEM.STATUS: ONLINE & READY</p>
+      <p class="footer">ENCRYPTED CONNECTION ESTABLISHED</p>
     </main>
   </div>
 
-  <!-- Interactive Scripts -->
   <script>
-    // --- 1. 3D Tilt Effect for Desktop ---
-    const tiltCard = document.getElementById('tilt-card');
-    
-    // Only apply 3D effect if screen is wider than mobile (for performance/UX)
-    if (window.innerWidth > 480) {
+    // --- 1. Terminal Boot Typing Effect ---
+    const terminalText = [
+      "> BOOT_SEQUENCE INITIATED...",
+      "> CALIBRATING CNC WRITER MACHINE...",
+      "> STATUS: CONVERTING PIXELS TO INK.",
+      "> AWAITING COMMAND..."
+    ];
+    let lineIndex = 0;
+    let charIndex = 0;
+    const typeSpeed = 40;
+    const lineDelay = 500;
+    const terminalElement = document.getElementById('typewriter');
+
+    function typeWriter() {
+      if (lineIndex < terminalText.length) {
+        if (charIndex < terminalText[lineIndex].length) {
+          terminalElement.innerHTML += terminalText[lineIndex].charAt(charIndex);
+          charIndex++;
+          setTimeout(typeWriter, typeSpeed);
+        } else {
+          terminalElement.innerHTML += "<br>";
+          lineIndex++;
+          charIndex = 0;
+          setTimeout(typeWriter, lineDelay);
+        }
+      }
+    }
+    // Start typing effect 500ms after load
+    setTimeout(typeWriter, 500);
+
+    // --- 2. Hardware 3D Hover Tilt ---
+    const tiltNode = document.getElementById('tilt-node');
+    if (window.innerWidth > 768) {
       document.addEventListener('mousemove', (e) => {
-        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-        tiltCard.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
+        const x = (window.innerWidth / 2 - e.pageX) / 30;
+        const y = (window.innerHeight / 2 - e.pageY) / 30;
+        tiltNode.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
       });
-
-      // Reset when mouse leaves
       document.addEventListener('mouseleave', () => {
-        tiltCard.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        tiltCard.style.transition = 'transform 0.5s ease';
+        tiltNode.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        tiltNode.style.transition = 'transform 0.4s ease-out';
       });
-
-      // Remove transition during active movement for smoothness
       document.addEventListener('mouseenter', () => {
-        tiltCard.style.transition = 'none';
+        tiltNode.style.transition = 'none';
       });
     }
 
-    // --- 2. Neural/Starfield Canvas Background ---
-    const canvas = document.getElementById('network-canvas');
+    // --- 3. Constellation / Telemetry Canvas ---
+    const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
-    let width, height, particles;
+    let width, height, nodes;
 
     function initCanvas() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      particles = [];
-      
-      // Responsive particle count based on screen size
-      const particleCount = width < 768 ? 40 : 80;
+      nodes = [];
+      const nodeCount = width < 768 ? 30 : 60;
 
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
           radius: Math.random() * 1.5 + 0.5
         });
       }
     }
 
-    function animateParticles() {
+    function drawTelemetry() {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
-      ctx.lineWidth = 0.5;
+      ctx.fillStyle = '#eab308'; // Gold nodes
 
-      for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
-        
-        // Move particles
-        p.x += p.vx;
-        p.y += p.vy;
+      nodes.forEach((node, i) => {
+        node.x += node.vx; node.y += node.vy;
+        if (node.x < 0 || node.x > width) node.vx *= -1;
+        if (node.y < 0 || node.y > height) node.vy *= -1;
 
-        // Bounce off edges
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        // Draw particle
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         ctx.fill();
 
-        // Connect nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          let p2 = particles[j];
-          let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          
-          if (dist < 120) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          let node2 = nodes[j];
+          let dist = Math.hypot(node.x - node2.x, node.y - node2.y);
+          if (dist < 100) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 240, 255, ${0.2 - dist/600})`;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 - dist/666})`; // Cyan links
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(node2.x, node2.y);
             ctx.stroke();
           }
         }
-      }
-      requestAnimationFrame(animateParticles);
+      });
+      requestAnimationFrame(drawTelemetry);
     }
 
-    // Handle resize
     window.addEventListener('resize', initCanvas);
-    
-    // Start Animation
     initCanvas();
-    animateParticles();
+    drawTelemetry();
   </script>
 </body>
 </html>
